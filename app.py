@@ -14,6 +14,16 @@ def process_pdf(file):
 def index():
     return render_template('index.html')
 
+@app.route('/query-pdf', methods=['POST'])
+def query_pdf():
+    if 'pdf_file' not in request.files:
+        return 'No file part'
+
+    file = request.files['pdf_file']
+    question = request.form['question']
+
+
+    pdf_text = process_pdf(file)
 
 
 if __name__ == '__main__':
