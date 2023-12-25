@@ -1,13 +1,8 @@
 from flask import Flask, request, render_template
 import openai
-import llamaindex
+from llamaindex import process_pdf  # Import the Llama Index processing function
 
 app = Flask(__name__)
-
-
-def process_pdf(file):
-    processed_text = llamaindex.process_pdf(file)
-    return processed_text
 
 
 @app.route('/')
@@ -23,15 +18,15 @@ def query_pdf():
     file = request.files['pdf_file']
     question = request.form['question']
 
-    pdf_text = process_pdf(file)
+    # Process the PDF file using Llama Index
+    pdf_text = process_pdf(file.read())  # Use the function from llamaindex.py
 
-
-
+    # Query using OpenAI
     response = openai.Answer.create(
-        documents=[pdf_text],
+        documents=[pdf_text],  # Processed text from PDF
         question=question,
-        search_model="davinci",
-        model="curie",
+        search_model="davinci",  # Choose the model
+        model="curie",  # Choose the model for answers
         examples_context="In 2017, U.S. life expectancy was 78.6 years.",
         examples=[["What is human life expectancy in the United States?", "78 years."]]
     )
