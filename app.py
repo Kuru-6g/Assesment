@@ -22,7 +22,7 @@ def query_pdf():
     pdf_text = process_pdf(file.read())  # Use the function from llamaindex.py
 
     # Query using OpenAI
-    response = openai.Answer.create(
+    response = openai.ChatCompletion.create(
         documents=[pdf_text],  # Processed text from PDF
         question=question,
         search_model="davinci",  # Choose the model
