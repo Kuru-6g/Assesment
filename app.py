@@ -25,6 +25,8 @@ def query_pdf():
 
     pdf_text = process_pdf(file)
 
+
+
     response = openai.Answer.create(
         documents=[pdf_text],
         question=question,
